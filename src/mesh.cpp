@@ -700,8 +700,7 @@ void Mesh::computeVertexNormals()
 	int num_vertices = vertices.size();
 	for (int i = 0; i < num_vertices; i++)
 	{
-		Eigen::Vector3f normal; // initialize vertex normal
-		normal << 0.0f, 0.0f, 0.0f;
+		Eigen::Vector3f normal(0, 0, 0); // initialize vertex normal
 
 		std::vector<Vertex *> adj_vertices;
 		HEdge *he = vertices[i]->halfEdge();
@@ -729,14 +728,19 @@ void Mesh::computeVertexNormals()
 
 double find_weight(HEdge *curr)
 {
-	Eigen::Vector3f left1 = (curr->start()->position() - curr->prev()->start()->position());
-	Eigen::Vector3f left2 = (curr->twin()->start()->position() - curr->next()->twin()->start()->position());
-	Eigen::Vector3f right1 = (curr->start()->position() - curr->twin()->next()->twin()->start()->position());
-	Eigen::Vector3f right2 = (curr->twin()->start()->position() - curr->twin()->prev()->start()->position());
-	double cos1 = left1.dot(left2) / (left1.norm() * left2.norm());
-	double cos2 = right1.dot(right2) / (right1.norm() * right2.norm());
-	double weight = 0.5 * (cos1 / sqrt(1 - cos1 * cos1) + cos2 / sqrt(1 - cos2 * cos2));
-	return weight;
+	if (curr->next()->end() != curr->prev()->start() ||
+		curr->twin()->prev()->start() != curr->twin()->next()->end()) // one triangle is not closed
+		return 1 / (curr->end()->position() - curr->start()->position()).norm();
+	else
+	{
+		Eigen::Vector3f left1 = (curr->start()->position() - curr->prev()->start()->position());
+		Eigen::Vector3f left2 = (curr->end()->position() - curr->next()->end()->position());
+		Eigen::Vector3f right1 = (curr->start()->position() - curr->twin()->next()->end()->position());
+		Eigen::Vector3f right2 = (curr->end()->position() - curr->twin()->prev()->start()->position());
+		double cot1 = left1.dot(left2) / left1.cross(left2).norm();
+		double cot2 = right1.dot(right2) / right1.cross(right2).norm();
+		return 0.5 * (cot1 + cot2);
+	}
 }
 
 void Mesh::umbrellaSmooth(bool cotangentWeights)
@@ -744,7 +748,9 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 	/*====== Programming Assignment 1 ======*/
 	int num_vertices = mVertexList.size();
 	std::vector<Eigen::Vector3f> positions(num_vertices); // initialize vector with size numVertex
-	float lambda = 0.8;									  // the percentage that a vertex moves in one iteration
+	float lambda = 0.7;									  // shrink rate
+	float mu = -0.68;									  // inflate rate
+	bool inflate_flag = false;
 
 	if (cotangentWeights)
 	{
@@ -759,30 +765,45 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* It is advised to double type to store the 
 		/* weights to avoid numerical issues.
 		/**********************************************/
-		for (int i = 0; i < num_vertices; i++)
+		do
 		{
-			Eigen::Vector3f position;
-			position << 0.0f, 0.0f, 0.0f;
-			double total_weights = 0; // initialize the position
-
-			HEdge *he = mVertexList[i]->halfEdge();
-			HEdge *curr = he;
-
-			double weight = find_weight(curr);
-			position += curr->twin()->start()->position() * weight;
-			total_weights += weight;
-			curr = curr->prev()->twin();
-
-			while (curr != he)
+			// calculate target position (laplacian vector)
+			for (int i = 0; i < num_vertices; i++)
 			{
+				Eigen::Vector3f position(0, 0, 0);
+				double total_weights = 0; // initialize the position
+
+				HEdge *he = mVertexList[i]->halfEdge();
+				HEdge *curr = he;
+
 				double weight = find_weight(curr);
 				position += curr->twin()->start()->position() * weight;
 				total_weights += weight;
 				curr = curr->prev()->twin();
-			}
 
-			positions[i] = position / total_weights;
-		}
+				while (curr != he)
+				{
+					double weight = find_weight(curr);
+					position += curr->twin()->start()->position() * weight;
+					total_weights += weight;
+					curr = curr->prev()->twin();
+				}
+
+				positions[i] = position / total_weights;
+			}
+			// determine whether to shrink or inflate
+			double co;
+			if (!inflate_flag)
+				co = lambda;
+			else
+				co = mu;
+			for (int i = 0; i < num_vertices; i++)
+				mVertexList[i]->setPosition(co * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
+			if (!inflate_flag)
+				inflate_flag = true;
+			else
+				break;
+		} while (true);
 	}
 	else
 	{
@@ -793,35 +814,74 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* Step 2: Implement the uniform weighting 
 		/* scheme for explicit mesh smoothing.
 		/**********************************************/
+		
+		std::vector<Eigen::Triplet<double>> tripletList;
+
 		for (int i = 0; i < num_vertices; i++)
 		{
+			Vertex *vertex = mVertexList[i];
+			OneRingVertex v_ring = OneRingVertex(vertex);
 			std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
-			HEdge *he = mVertexList[i]->halfEdge();
-			adj_vertices.push_back(he->twin()->start());
-			HEdge *curr = he->prev()->twin();
-			while (curr != he)
+			Vertex *it;
+			while (it = v_ring.nextVertex())
+				adj_vertices.push_back(it);
+			
+			tripletList.push_back(Eigen::Triplet<double>(i, i, 1));
+			for (int j = 0; j < adj_vertices.size(); j++)
 			{
-				adj_vertices.push_back(curr->prev()->start());
-				curr = curr->prev()->twin();
+				int index = std::find(mVertexList.begin(), mVertexList.end(), adj_vertices[j]) - mVertexList.begin();
+				if (index == num_vertices)
+					continue;
+				tripletList.push_back(Eigen::Triplet<double>(i, index, (double)(-1.0 / adj_vertices.size())));
 			}
 
-			Eigen::Vector3f position; // initialize the position
-			position << 0.0f, 0.0f, 0.0f;
-			for (int i = 0; i < adj_vertices.size(); i++)
-				position += adj_vertices[i]->position();
-			positions[i] = position / adj_vertices.size();
 		}
-	}
+		Eigen::SparseMatrix< double > L(num_vertices, num_vertices);
+		L.setFromTriplets(tripletList.begin(), tripletList.end());
+		
+		Eigen::MatrixXd P(num_vertices, 3);
+		for (int i = 0; i < num_vertices; ++i)
+			P.row(i) = mVertexList[i]->position().transpose().cast<double>();
+		P = P - lambda * L * P;
+		
+		for (int i = 0; i < num_vertices; ++i)
+			mVertexList[i]->setPosition(P.row(i).transpose().cast<float>());
+		
 
-	for (int i = 0; i < num_vertices; i++)
-	{
-		mVertexList[i]->setPosition(lambda * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
-	}
+		// do
+		// {
+		// 	// calculate target position (laplacian vector)
+		// 	for (int i = 0; i < num_vertices; i++)
+		// 	{
+		// 		std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
+		// 		HEdge *he = mVertexList[i]->halfEdge();
+		// 		adj_vertices.push_back(he->twin()->start());
+		// 		HEdge *curr = he->prev()->twin();
+		// 		while (curr != he)
+		// 		{
+		// 			adj_vertices.push_back(curr->prev()->start());
+		// 			curr = curr->prev()->twin();
+		// 		}
 
-	std::vector<int> stats = collectMeshStats();
-	std::cout << "#vertices             = " << stats[0] << "\n";
-	std::cout << "#half_edges           = " << stats[1] << "\n";
-	std::cout << "#faces                = " << stats[2] << "\n";
+		// 		Eigen::Vector3f position(0, 0, 0); // initialize the position
+		// 		for (int i = 0; i < adj_vertices.size(); i++)
+		// 			position += adj_vertices[i]->position();
+		// 		positions[i] = position / adj_vertices.size();
+		// 	}
+		// 	// determine whether to shrink or inflate
+		// 	double co;
+		// 	if (!inflate_flag)
+		// 		co = lambda;
+		// 	else
+		// 		co = mu;
+		// 	for (int i = 0; i < num_vertices; i++)
+		// 		mVertexList[i]->setPosition(co * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
+		// 	if (!inflate_flag)
+		// 		inflate_flag = true;
+		// 	else
+		// 		break;
+		// } while (true);
+	}
 
 	/*====== Programming Assignment 1 ======*/
 
@@ -857,6 +917,20 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 		/* method.
 		/* Hint: https://en.wikipedia.org/wiki/Biconjugate_gradient_method
 		/**********************************************/
+		Eigen::VectorXf r = b - A * x;
+		Eigen::VectorXf p = r;
+		for (int k = 0; k < maxIterations; k++)
+		{
+			double alpha = r.norm() * r.norm() / (p.transpose() * A * p);
+			x = x + alpha * p;
+			Eigen::VectorXf r_new = r - alpha * A * p;
+			if (r.norm() < errorTolerance)
+				break;
+
+			double beta = r_new.norm() * r_new.norm() / (r.norm() * r.norm());
+			p = r_new + beta * p;
+			r = r_new;
+		}
 	};
 
 	/* IMPORTANT:
