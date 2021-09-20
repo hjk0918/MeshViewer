@@ -727,9 +727,24 @@ void Mesh::computeVertexNormals()
 	setVertexNormalDirty(true);
 }
 
+double find_weight(HEdge *curr)
+{
+	Eigen::Vector3f left1 = (curr->start()->position() - curr->prev()->start()->position());
+	Eigen::Vector3f left2 = (curr->twin()->start()->position() - curr->next()->twin()->start()->position());
+	Eigen::Vector3f right1 = (curr->start()->position() - curr->twin()->next()->twin()->start()->position());
+	Eigen::Vector3f right2 = (curr->twin()->start()->position() - curr->twin()->prev()->start()->position());
+	double cos1 = left1.dot(left2) / (left1.norm() * left2.norm());
+	double cos2 = right1.dot(right2) / (right1.norm() * right2.norm());
+	double weight = 0.5 * (cos1 / sqrt(1 - cos1 * cos1) + cos2 / sqrt(1 - cos2 * cos2));
+	return weight;
+}
+
 void Mesh::umbrellaSmooth(bool cotangentWeights)
 {
 	/*====== Programming Assignment 1 ======*/
+	int num_vertices = mVertexList.size();
+	std::vector<Eigen::Vector3f> positions(num_vertices); // initialize vector with size numVertex
+	float lambda = 0.8;									  // the percentage that a vertex moves in one iteration
 
 	if (cotangentWeights)
 	{
@@ -744,6 +759,30 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* It is advised to double type to store the 
 		/* weights to avoid numerical issues.
 		/**********************************************/
+		for (int i = 0; i < num_vertices; i++)
+		{
+			Eigen::Vector3f position;
+			position << 0.0f, 0.0f, 0.0f;
+			double total_weights = 0; // initialize the position
+
+			HEdge *he = mVertexList[i]->halfEdge();
+			HEdge *curr = he;
+
+			double weight = find_weight(curr);
+			position += curr->twin()->start()->position() * weight;
+			total_weights += weight;
+			curr = curr->prev()->twin();
+
+			while (curr != he)
+			{
+				double weight = find_weight(curr);
+				position += curr->twin()->start()->position() * weight;
+				total_weights += weight;
+				curr = curr->prev()->twin();
+			}
+
+			positions[i] = position / total_weights;
+		}
 	}
 	else
 	{
@@ -754,7 +793,35 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* Step 2: Implement the uniform weighting 
 		/* scheme for explicit mesh smoothing.
 		/**********************************************/
+		for (int i = 0; i < num_vertices; i++)
+		{
+			std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
+			HEdge *he = mVertexList[i]->halfEdge();
+			adj_vertices.push_back(he->twin()->start());
+			HEdge *curr = he->prev()->twin();
+			while (curr != he)
+			{
+				adj_vertices.push_back(curr->prev()->start());
+				curr = curr->prev()->twin();
+			}
+
+			Eigen::Vector3f position; // initialize the position
+			position << 0.0f, 0.0f, 0.0f;
+			for (int i = 0; i < adj_vertices.size(); i++)
+				position += adj_vertices[i]->position();
+			positions[i] = position / adj_vertices.size();
+		}
 	}
+
+	for (int i = 0; i < num_vertices; i++)
+	{
+		mVertexList[i]->setPosition(lambda * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
+	}
+
+	std::vector<int> stats = collectMeshStats();
+	std::cout << "#vertices             = " << stats[0] << "\n";
+	std::cout << "#half_edges           = " << stats[1] << "\n";
+	std::cout << "#faces                = " << stats[2] << "\n";
 
 	/*====== Programming Assignment 1 ======*/
 
@@ -831,4 +898,3 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 	// Notify mesh shaders
 	setVertexPosDirty(true);
 }
-
