@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\nanogui.dir/objects.a
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe qc CMakeFiles\nanogui.dir/objects.a @CMakeFiles\nanogui.dir\objects1.rsp
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X86_64~2.EXE  -Wall -Wextra -std=c++14 -g -shared -o libnanogui.dll -Wl,--out-implib,libnanogui.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\nanogui.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\nanogui.dir\linklibs.rsp

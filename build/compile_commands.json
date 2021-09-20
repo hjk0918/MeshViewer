@@ -1,0 +1,252 @@
+[
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_C.rsp -g -Wno-unused-result -o CMakeFiles\\nanogui-obj.dir\\ext\\nanovg\\src\\nanovg.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanovg\\src\\nanovg.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanovg/src/nanovg.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_C.rsp -g -o CMakeFiles\\nanogui-obj.dir\\ext\\glad\\src\\glad.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glad\\src\\glad.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glad/src/glad.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\nanogui_resources.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\build\\nanogui_resources.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/build/nanogui_resources.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\glutil.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\glutil.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/glutil.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\common.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\common.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/common.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\widget.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\widget.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/widget.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\theme.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\theme.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/theme.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\layout.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\layout.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/layout.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\screen.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\screen.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/screen.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\label.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\label.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/label.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\window.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\window.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/window.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\popup.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\popup.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/popup.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\checkbox.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\checkbox.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/checkbox.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\button.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\button.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/button.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\popupbutton.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\popupbutton.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/popupbutton.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\combobox.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\combobox.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/combobox.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\progressbar.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\progressbar.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/progressbar.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\slider.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\slider.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/slider.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\messagedialog.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\messagedialog.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/messagedialog.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\textbox.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\textbox.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/textbox.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\imagepanel.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\imagepanel.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/imagepanel.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\imageview.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\imageview.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/imageview.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\vscrollpanel.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\vscrollpanel.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/vscrollpanel.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\colorwheel.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\colorwheel.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/colorwheel.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\colorpicker.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\colorpicker.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/colorpicker.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\graph.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\graph.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/graph.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\stackedwidget.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\stackedwidget.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/stackedwidget.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\tabheader.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\tabheader.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/tabheader.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\tabwidget.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\tabwidget.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/tabwidget.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\glcanvas.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\glcanvas.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/glcanvas.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DGLAD_GLAPI_EXPORT_BUILD -DNANOGUI_BUILD -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_BUILD -DNVG_SHARED -D_GLFW_BUILD_DLL @CMakeFiles/nanogui-obj.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\nanogui-obj.dir\\ext\\nanogui\\serializer.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\nanogui\\serializer.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/ext/nanogui/serializer.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_SHARED @CMakeFiles/COMP5411.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\COMP5411.dir\\src\\main.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\src\\main.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/src/main.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_SHARED @CMakeFiles/COMP5411.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\COMP5411.dir\\src\\deformer.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\src\\deformer.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/src/deformer.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_SHARED @CMakeFiles/COMP5411.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\COMP5411.dir\\src\\glcamera.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\src\\glcamera.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/src/glcamera.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_SHARED @CMakeFiles/COMP5411.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\COMP5411.dir\\src\\mesh.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\src\\mesh.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/src/mesh.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X86_64~2.EXE -DGLAD_GLAPI_EXPORT -DNANOGUI_GLAD -DNANOGUI_SHARED -DNVG_SHARED @CMakeFiles/COMP5411.dir/includes_CXX.rsp  -Wall -Wextra -std=c++14 -g -o CMakeFiles\\COMP5411.dir\\src\\viewer3d.cpp.obj -c C:\\study\\COMP5411\\MeshViewer\\src\\viewer3d.cpp",
+  "file": "C:/study/COMP5411/MeshViewer/src/viewer3d.cpp"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\context.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\context.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/context.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\init.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\init.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/init.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\input.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\input.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/input.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\monitor.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\monitor.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/monitor.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\vulkan.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\vulkan.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/vulkan.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\window.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\window.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/window.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\win32_init.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\win32_init.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/win32_init.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\win32_joystick.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\win32_joystick.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/win32_joystick.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\win32_monitor.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\win32_monitor.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/win32_monitor.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\win32_time.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\win32_time.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/win32_time.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\win32_tls.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\win32_tls.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/win32_tls.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\win32_window.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\win32_window.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/win32_window.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\wgl_context.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\wgl_context.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/wgl_context.c"
+},
+{
+  "directory": "C:/study/COMP5411/MeshViewer/build/ext_build/glfw/src",
+  "command": "C:\\PROGRA~1\\MINGW-~1\\X86_64~1.0-P\\mingw64\\bin\\X8EAA8~1.EXE -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw_objects.dir/includes_C.rsp -g -Wall -o CMakeFiles\\glfw_objects.dir\\egl_context.c.obj -c C:\\study\\COMP5411\\MeshViewer\\ext\\glfw\\src\\egl_context.c",
+  "file": "C:/study/COMP5411/MeshViewer/ext/glfw/src/egl_context.c"
+}
+]
