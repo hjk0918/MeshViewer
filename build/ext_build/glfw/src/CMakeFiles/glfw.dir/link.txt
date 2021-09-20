@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\glfw.dir/objects.a
-C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe qc CMakeFiles\glfw.dir/objects.a @CMakeFiles\glfw.dir\objects1.rsp
-C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\X8EAA8~1.EXE -g -Wl,--high-entropy-va -Wl,--dynamicbase -Wl,--nxcompat  -shared -o glfw3.dll -Wl,--out-implib,libglfw3dll.a -Wl,--major-image-version,3,--minor-image-version,2 -Wl,--whole-archive CMakeFiles\glfw.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\glfw.dir\linklibs.rsp
