@@ -2,6 +2,7 @@
 #include <iostream>
 #include <igl/read_triangle_mesh.h>
 #include <Eigen/Sparse>
+#include <queue>
 
 HEdge::HEdge(bool b)
 {
@@ -609,9 +610,14 @@ std::vector<int> Mesh::collectMeshStats()
 	/*
 	/* Collect mesh information as listed above.
 	/**********************************************/
+
 	V = this->vertices().size();
 	E = this->edges().size();
-	F = this->faces().size();
+	F = this->faces().size() / 2;
+	B = this->countBoundaryLoops();
+	C = this->countConnectedComponents();
+	if (B = 0)
+		G = 1 - (V - E / 3 + F) / 2;
 
 	/*====== Programming Assignment 0 ======*/
 
@@ -639,24 +645,23 @@ int Mesh::countBoundaryLoops()
 	/**********************************************/
 
 	/*====== Programming Assignment 0 ======*/
-	std::vector<HEdge *> B_HEdges = this->boundaryEdges();
-	while (!B_HEdges.empty())
+	std::vector<HEdge *> BHe = this->boundaryEdges();
+
+	for (std::vector<HEdge *>::iterator it = BHe.begin(); it != BHe.end(); ++it)
+		(*it)->setFlag(false);
+
+	for (std::vector<HEdge *>::iterator it = BHe.begin(); it != BHe.end(); ++it)
 	{
-		HEdge *he = B_HEdges[0];
-
-		HEdge *curr = he;
-		std::vector<HEdge *>::iterator it;
-		for (it = B_HEdges.begin(); it != B_HEdges.end(); ++it)
-			if (*it == curr)
-				it = B_HEdges.erase(it);
-
-		while (curr->next()->twin() != nullptr)
-			curr = curr->next()->twin();
-		curr = curr->next();
-
-		for (it = B_HEdges.begin(); it != B_HEdges.end(); ++it)
-			if (*it == curr)
-				it = B_HEdges.erase(it);
+		if (!(*it)->flag())
+		{
+			++count;
+			HEdge *curr = (*it);
+			do
+			{
+				curr->setFlag(true);
+				curr = curr->next();
+			} while (curr != (*it));
+		}
 	}
 
 	return count;
@@ -678,6 +683,39 @@ int Mesh::countConnectedComponents()
 	/**********************************************/
 
 	/*====== Programming Assignment 0 ======*/
+
+	std::vector<HEdge *> BHe = this->edges();
+
+	for (std::vector<HEdge *>::iterator it = BHe.begin(); it != BHe.end(); ++it)
+		(*it)->setFlag(false);
+
+	for (std::vector<HEdge *>::iterator it = BHe.begin(); it != BHe.end(); ++it)
+	{
+		if (!(*it)->flag())
+		{
+			++count;
+			std::queue<HEdge *> queue;
+			(*it)->setFlag(true);
+			(*it)->twin()->setFlag(true);
+			queue.push(*it);
+			while (!queue.empty())
+			{
+				HEdge *he = queue.front();
+				queue.pop();
+				OneRingHEdge he_ring(he->end());
+				HEdge *curr;
+				while (curr = he_ring.nextHEdge())
+				{
+					if (!curr->flag())
+					{
+						curr->setFlag(true);
+						curr->twin()->setFlag(true);
+						queue.push(curr);
+					}
+				}
+			}
+		}
+	}
 
 	return count;
 }
@@ -862,7 +900,6 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* scheme for explicit mesh smoothing.
 		/**********************************************/
 
-
 		/*
 		std::vector<Eigen::Triplet<float>> tripletList;
 
@@ -898,27 +935,25 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 			mVertexList[i]->setPosition(P.row(i).transpose());
 		*/
 
-
 		for (int i = 0; i < num_vertices; i++)
+		{
+			std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
+			HEdge *he = mVertexList[i]->halfEdge();
+			adj_vertices.push_back(he->twin()->start());
+			HEdge *curr = he->prev()->twin();
+			while (curr != he)
 			{
-				std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
-				HEdge *he = mVertexList[i]->halfEdge();
-				adj_vertices.push_back(he->twin()->start());
-				HEdge *curr = he->prev()->twin();
-				while (curr != he)
-				{
-					adj_vertices.push_back(curr->prev()->start());
-					curr = curr->prev()->twin();
-				}
-
-				Eigen::Vector3f position(0, 0, 0); // initialize the position
-				for (int i = 0; i < adj_vertices.size(); i++)
-					position += adj_vertices[i]->position();
-				positions[i] = position / adj_vertices.size();
+				adj_vertices.push_back(curr->prev()->start());
+				curr = curr->prev()->twin();
 			}
-		for (int i = 0; i < num_vertices; i++)
-				mVertexList[i]->setPosition(lambda * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
 
+			Eigen::Vector3f position(0, 0, 0); // initialize the position
+			for (int i = 0; i < adj_vertices.size(); i++)
+				position += adj_vertices[i]->position();
+			positions[i] = position / adj_vertices.size();
+		}
+		for (int i = 0; i < num_vertices; i++)
+			mVertexList[i]->setPosition(lambda * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
 
 		/*
 		do
@@ -1057,7 +1092,6 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 			tripletList.push_back(Eigen::Triplet<float>(i, i, 1));
 		}
 		L.setFromTriplets(tripletList.begin(), tripletList.end());
-
 	}
 	else
 	{
