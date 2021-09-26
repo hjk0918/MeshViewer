@@ -3,6 +3,7 @@
 #include <igl/read_triangle_mesh.h>
 #include <Eigen/Sparse>
 #include <queue>
+#include <chrono>
 
 HEdge::HEdge(bool b)
 {
@@ -784,10 +785,11 @@ float find_weight(HEdge *curr)
 void Mesh::umbrellaSmooth(bool cotangentWeights)
 {
 	/*====== Programming Assignment 1 ======*/
+	auto start = std::chrono::high_resolution_clock::now();
 	int num_vertices = mVertexList.size();
 	std::vector<Eigen::Vector3f> positions(num_vertices); // initialize vector with size numVertex
-	float lambda = 0.7;									  // shrink rate
-	float mu = -0.68;									  // inflate rate
+	float lambda = 0.5;									  // shrink rate
+	float mu = 0;									  // inflate rate
 	bool inflate_flag = false;
 
 	if (cotangentWeights)
@@ -804,8 +806,8 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* weights to avoid numerical issues.
 		/**********************************************/
 
+		// without inflation //
 		std::vector<Eigen::Triplet<float>> tripletList;
-
 		for (int i = 0; i < num_vertices; i++)
 		{
 			// find all adjacent vertices //
@@ -846,6 +848,7 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		for (int i = 0; i < num_vertices; ++i)
 			mVertexList[i]->setPosition(P.row(i).transpose());
 
+		// with inflation //
 		/*
 		do
 		{
@@ -900,7 +903,7 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/* scheme for explicit mesh smoothing.
 		/**********************************************/
 
-		/*
+		// without inflation
 		std::vector<Eigen::Triplet<float>> tripletList;
 
 		for (int i = 0; i < num_vertices; i++)
@@ -933,65 +936,46 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 
 		for (int i = 0; i < num_vertices; ++i)
 			mVertexList[i]->setPosition(P.row(i).transpose());
-		*/
 
-		for (int i = 0; i < num_vertices; i++)
-		{
-			std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
-			HEdge *he = mVertexList[i]->halfEdge();
-			adj_vertices.push_back(he->twin()->start());
-			HEdge *curr = he->prev()->twin();
-			while (curr != he)
-			{
-				adj_vertices.push_back(curr->prev()->start());
-				curr = curr->prev()->twin();
-			}
+		// with inflation //
+		// do
+		// {
+		// 	// calculate target position (laplacian vector)
+		// 	for (int i = 0; i < num_vertices; i++)
+		// 	{
+		// 		std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
+		// 		HEdge *he = mVertexList[i]->halfEdge();
+		// 		adj_vertices.push_back(he->twin()->start());
+		// 		HEdge *curr = he->prev()->twin();
+		// 		while (curr != he)
+		// 		{
+		// 			adj_vertices.push_back(curr->prev()->start());
+		// 			curr = curr->prev()->twin();
+		// 		}
 
-			Eigen::Vector3f position(0, 0, 0); // initialize the position
-			for (int i = 0; i < adj_vertices.size(); i++)
-				position += adj_vertices[i]->position();
-			positions[i] = position / adj_vertices.size();
-		}
-		for (int i = 0; i < num_vertices; i++)
-			mVertexList[i]->setPosition(lambda * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
-
-		/*
-		do
-		{
-			// calculate target position (laplacian vector)
-			for (int i = 0; i < num_vertices; i++)
-			{
-				std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
-				HEdge *he = mVertexList[i]->halfEdge();
-				adj_vertices.push_back(he->twin()->start());
-				HEdge *curr = he->prev()->twin();
-				while (curr != he)
-				{
-					adj_vertices.push_back(curr->prev()->start());
-					curr = curr->prev()->twin();
-				}
-
-				Eigen::Vector3f position(0, 0, 0); // initialize the position
-				for (int i = 0; i < adj_vertices.size(); i++)
-					position += adj_vertices[i]->position();
-				positions[i] = position / adj_vertices.size();
-			}
-			// determine whether to shrink or inflate
-			double co;
-			if (!inflate_flag)
-				co = lambda;
-			else
-				co = mu;
-			for (int i = 0; i < num_vertices; i++)
-				mVertexList[i]->setPosition(co * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
-			if (!inflate_flag)
-				inflate_flag = true;
-			else
-				break;
-		} while (true);
-		*/
+		// 		Eigen::Vector3f position(0, 0, 0); // initialize the position
+		// 		for (int i = 0; i < adj_vertices.size(); i++)
+		// 			position += adj_vertices[i]->position();
+		// 		positions[i] = position / adj_vertices.size();
+		// 	}
+		// 	// determine whether to shrink or inflate
+		// 	double co;
+		// 	if (!inflate_flag)
+		// 		co = lambda;
+		// 	else
+		// 		co = mu;
+		// 	for (int i = 0; i < num_vertices; i++)
+		// 		mVertexList[i]->setPosition(co * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
+		// 	if (!inflate_flag)
+		// 		inflate_flag = true;
+		// 	else
+		// 		break;
+		// } while (true);
+		
 	}
-
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	printf("Explicit Smooth, Cot=%d, millisecs=%lld", cotangentWeights, duration.count());
 	/*====== Programming Assignment 1 ======*/
 
 	computeVertexNormals();
@@ -1004,7 +988,7 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 	/*====== Programming Assignment 1 ======*/
 	int num_vertices = mVertexList.size();
 	std::vector<Eigen::Vector3f> positions(num_vertices); // initialize vector with size numVertex
-	float lambda = 0.7;									  // shrink rate
+	float lambda = 0.5;									  // shrink rate
 	float mu = -0.68;									  // inflate rate
 	bool inflate_flag = false;
 
@@ -1043,8 +1027,8 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 	/* Please refer to the following link about the sparse matrix construction in Eigen. */
 	/* http://eigen.tuxfamily.org/dox/group__TutorialSparse.html#title3 */
 
+	auto start = std::chrono::high_resolution_clock::now();
 	Eigen::SparseMatrix<float> L(num_vertices, num_vertices);
-
 	if (cotangentWeights)
 	{
 		/**********************************************/
@@ -1060,8 +1044,8 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 		/* It is advised to double type to store the
 		/* weights to avoid numerical issues.
 		/**********************************************/
-		std::vector<Eigen::Triplet<float>> tripletList;
 
+		std::vector<Eigen::Triplet<float>> tripletList;
 		for (int i = 0; i < num_vertices; i++)
 		{
 			// find all adjacent vertices //
@@ -1106,7 +1090,6 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 		/**********************************************/
 
 		std::vector<Eigen::Triplet<float>> tripletList;
-
 		for (int i = 0; i < num_vertices; i++)
 		{
 			// find all adjacent vertices //
@@ -1159,6 +1142,10 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights)
 		position(2) = z(i);
 		mVertexList[i]->setPosition(position);
 	}
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	printf("Explicit Smooth, Cot=%d, millisecs=%lld", cotangentWeights, duration.count());
 
 	/*====== Programming Assignment 1 ======*/
 
