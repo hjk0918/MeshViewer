@@ -336,13 +336,26 @@ IGL_INLINE bool igl::readOBJ(
     // message to stderr
     return false;
   }
+
   bool V_rect = igl::list_to_matrix(vV,V);
   if(!V_rect)
   {
     // igl::list_to_matrix(vV,V) already printed error message to std err
     return false;
   }
+
+  // std::cout<<"problem here\n";
+  // for(int i=0;i<vF.size();i++)
+  // {
+  //   for(int j=0;j<vF[i].size();j++)
+  //   {
+  //     std::cout<<vF[i][j]<<" ";
+  //   }
+  //   std::cout<<std::endl;
+  // }
+
   bool F_rect = igl::list_to_matrix(vF,F);
+
   if(!F_rect)
   {
     // igl::list_to_matrix(vF,F) already printed error message to std err

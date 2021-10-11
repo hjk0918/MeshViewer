@@ -28,6 +28,13 @@ public:
 	Vertex* start() const;
 	Vertex* setStart(Vertex* v);
 
+	// new
+	Vertex* edgePoint() const;
+	Vertex* setEdgePoint(Vertex* v);
+
+	int sharp() const;
+	int setSharp(int s);
+
 	Vertex* end() const;
 
 	Face* leftFace() const;
@@ -51,6 +58,10 @@ private:
 	Vertex* mStart;
 	// Left face
 	Face* mFace;
+
+	// new
+	Vertex* mEdgePoint;
+	int mSharp = 0;
 
 	// Flag for boundary edge
 	bool mBoundary;
@@ -113,6 +124,10 @@ public:
 	HEdge* halfEdge() const;
 	HEdge* setHalfEdge(HEdge* he);
 
+	// new
+	Vertex* vertexPoint() const;
+	Vertex* setVertexPoint(Vertex* v);
+
 	int index() const;
 	int setIndex(int i);
 
@@ -138,6 +153,8 @@ private:
 	// Color value
 	Eigen::Vector3f mColor;
 
+	Vertex* mVertexPoint;
+
 	// One of half edge starts with this vertex
 	HEdge* mHEdge;
 	// Original vertex index, DO NOT UPDATE IT!
@@ -155,6 +172,10 @@ public:
 	HEdge* halfEdge() const;
 	HEdge* setHalfEdge(HEdge* he);
 
+	// new
+	Vertex* facePoint() const;
+	Vertex* setFacePoint(Vertex* fp);
+
 	bool isBoundary() const;
 
 	bool isValid() const;
@@ -163,7 +184,10 @@ public:
 private:
 	// Adjacent half-edge
 	HEdge* mHEdge;
+	// new
+	Vertex* mFacePoint;
 	bool mValid;
+	
 };
 
 class Mesh {
@@ -190,6 +214,17 @@ public:
 	// You DO NOT need to understand or use them.
 	bool loadMeshFile(const std::string filename);
 	void addFace(int v1, int v2, int v3);
+	void addFace(int v1, int v2, int v3, int v4);
+	void addFace(Vertex* v1, Vertex* v2, Vertex* v3, Vertex* v4);
+	void clear_boundaryHE();
+	
+	// new
+	void addVertex(Vertex* vertex);
+	void addHEdge(HEdge* he);
+	void addFace(Face* face);
+	void printMeshStats();
+	int side_num = 3;
+
 	Eigen::Vector3f initBboxMin() const;
 	Eigen::Vector3f initBboxMax() const;
 
@@ -214,6 +249,8 @@ public:
 
 	/************************************************************************/
 
+	Eigen::MatrixX3f mVertexMat;
+	Eigen::MatrixX3i mFaceMat;
 private:
 	// List of NON-boundary half edges
 	std::vector< HEdge* > mHEdgeList;
@@ -229,10 +266,12 @@ private:
 	bool mVertexNormalFlag;
 	bool mVertexColorFlag;
 
+	
+
 	/* DO NOT use the following variables in YOUR CODE */
 	// Original mesh information
-	Eigen::MatrixX3f mVertexMat;
-	Eigen::MatrixX3i mFaceMat;
+
+	//Eigen::MatrixX4i mFaceMat_quad;
 };
 
 #endif // MESH_H

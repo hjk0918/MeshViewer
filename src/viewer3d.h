@@ -4,6 +4,7 @@
 #include "glcamera.h"
 #include "mesh.h"
 #include "deformer.h"
+#include "catmullclark.h"
 
 // Data manager for the viewer
 // You DO NOT need to understand or use it.
@@ -31,6 +32,9 @@ public:
 
 	void setWindowSize(int w, int h);
 	void setMesh(Mesh* m, float aspectRatio);
+	// move from private
+	Mesh* mMesh;
+	
 
 private:
 	void updateVertexInfo();
@@ -39,8 +43,8 @@ private:
 	nanogui::GLShader* mMeshShader;
 	nanogui::GLShader* mWireframeShader;
 	nanogui::GLShader* mVertexNormalShader;
-
-	Mesh* mMesh;
+	
+	
 	Eigen::Matrix3Xf mMeshVertices;
 	Eigen::Matrix3Xf mMeshPerFaceNormals;
 	Eigen::Matrix3Xf mMeshPerVertexNormals;
@@ -116,7 +120,13 @@ private:
 	void moveHandle(float lastMouseX, float lastMouseY,
 	                float currentMouseX, float currentMouseY);
 
-	// UI related
+	// CatmullClark
+	void getFacePoints();
+	void getEdgePoints();
+	void getVertexPoints();
+	void catmullclark();
+
+	// UI related *************************************************
 	GLFWwindow* mWindow;
 	nanogui::FormHelper* mNGui;
 	nanogui::Screen* mNScreen;

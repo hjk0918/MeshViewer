@@ -401,6 +401,8 @@ add_executable(COMP5411
   src/util.h
   src/viewer3d.h
   src/viewer3d.cpp
+  src/catmullclark.h
+  src/catmullclark.cpp
 )
 target_include_directories(COMP5411 PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ext/libigl>

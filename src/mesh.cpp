@@ -16,8 +16,12 @@ HEdge::HEdge(bool b)
 	mStart = nullptr;
 	mFace = nullptr;
 
+	mEdgePoint = nullptr;
+
 	mFlag = false;
 	mValid = true;
+
+	mSharp = 0;
 }
 
 HEdge *HEdge::twin() const
@@ -62,6 +66,29 @@ Vertex *HEdge::setStart(Vertex *v)
 {
 	mStart = v;
 	return mStart;
+}
+
+// new
+Vertex *HEdge::edgePoint() const
+{
+	return mEdgePoint;
+}
+
+Vertex *HEdge::setEdgePoint(Vertex *v)
+{
+	mEdgePoint = v;
+	return mEdgePoint;
+}
+
+int HEdge::sharp() const
+{
+	return mSharp;
+}
+
+int HEdge::setSharp(int s)
+{
+	mSharp = s;
+	return mSharp;
 }
 
 Vertex *HEdge::end() const
@@ -209,6 +236,17 @@ HEdge *Vertex::setHalfEdge(HEdge *he)
 	return mHEdge;
 }
 
+// new
+Vertex *Vertex::vertexPoint() const
+{
+	return mVertexPoint;
+}
+Vertex *Vertex::setVertexPoint(Vertex *v)
+{
+	mVertexPoint = v;
+	return mVertexPoint;
+}
+
 int Vertex::index() const
 {
 	return mIndex;
@@ -268,7 +306,7 @@ int Vertex::valence() const
 	return count;
 }
 
-Face::Face() : mHEdge(nullptr), mValid(true)
+Face::Face() : mHEdge(nullptr), mFacePoint(nullptr), mValid(true)
 {
 }
 
@@ -281,6 +319,17 @@ HEdge *Face::setHalfEdge(HEdge *he)
 {
 	mHEdge = he;
 	return mHEdge;
+}
+
+// new
+Vertex *Face::facePoint() const
+{
+	return mFacePoint;
+}
+Vertex *Face::setFacePoint(Vertex *fp)
+{
+	mFacePoint = fp;
+	return mFacePoint;
 }
 
 bool Face::isBoundary() const
@@ -374,6 +423,25 @@ bool Mesh::loadMeshFile(const std::string filename)
 {
 	// Use libigl to parse the mesh file
 	bool iglFlag = igl::read_triangle_mesh(filename, mVertexMat, mFaceMat);
+	// bool iglFlag = igl::readOBJ(filename, mVertexMat, mFaceMat);
+	// bool iglFlag = true;
+	// std::vector<std::vector<double>> vV, vTC, vN;
+	// std::vector<std::vector<int>> vF, vFTC, vFN;
+
+	// if (!igl::readOBJ(filename, vV, vTC, vN, vF, vFTC, vFN))
+	// 	return false;
+
+	// if (!igl::list_to_matrix(vV, mVertexMat))
+	// 	return false;
+
+	// int numFacePoints = vF[0].size();
+	// if (numFacePoints == 3 && !igl::list_to_matrix(vF, mFaceMat))
+	// 	return false;
+	// else if (numFacePoints == 4 && !igl::list_to_matrix(vF, mFaceMat_quad))
+	// 	return false;
+	// else
+	// 	return false;
+
 	if (iglFlag)
 	{
 		clear();
@@ -382,17 +450,23 @@ bool Mesh::loadMeshFile(const std::string filename)
 		int numVertices = mVertexMat.rows();
 		int numFaces = mFaceMat.rows();
 
-		// Fill in the vertex list
+		// Fill in the vertex list -> quad doesn't change
 		for (int vidx = 0; vidx < numVertices; ++vidx)
 		{
 			mVertexList.push_back(new Vertex(mVertexMat(vidx, 0),
 											 mVertexMat(vidx, 1),
 											 mVertexMat(vidx, 2)));
 		}
-		// Fill in the face list
+		// Fill in the face list -> tri or quad
 		for (int fidx = 0; fidx < numFaces; ++fidx)
 		{
 			addFace(mFaceMat(fidx, 0), mFaceMat(fidx, 1), mFaceMat(fidx, 2));
+			// if (numFacePoints == 3)
+			// 	addFace(mFaceMat(fidx, 0), mFaceMat(fidx, 1), mFaceMat(fidx, 2));
+			// else if (numFacePoints == 4)
+			// 	addFace(mFaceMat_quad(fidx, 0), mFaceMat_quad(fidx, 1), mFaceMat_quad(fidx, 2), mFaceMat_quad(fidx, 3));
+			// else
+			// 	std::cout << __FUNCTION__ << ": mesh is not triangular or quadraliteral!\n";
 		}
 
 		std::vector<HEdge *> hedgeList;
@@ -489,7 +563,7 @@ void Mesh::addFace(int v1, int v2, int v3)
 	vert[2]->adjHEdges.push_back(bhedge[2]);
 
 	// Merge boundary if needed
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 3; ++i) // traverse bhedge
 	{
 		Vertex *start = bhedge[i]->start();
 		Vertex *end = bhedge[i]->end();
@@ -516,6 +590,194 @@ void Mesh::addFace(int v1, int v2, int v3)
 		mBHEdgeList.push_back(bhedge[i]);
 	}
 	mFaceList.push_back(face);
+}
+
+void Mesh::addFace(int v1, int v2, int v3, int v4)
+{
+	Face *face = new Face();
+
+	HEdge *hedge[4];
+	HEdge *bhedge[4]; // Boundary half-edges
+	Vertex *vert[4];
+
+	for (int i = 0; i < 4; ++i)
+	{
+		hedge[i] = new HEdge();
+		bhedge[i] = new HEdge(true);
+	}
+	vert[0] = mVertexList[v1];
+	vert[1] = mVertexList[v2];
+	vert[2] = mVertexList[v3];
+	vert[3] = mVertexList[v4];
+
+	// Connect prev-next pointers
+	for (int i = 0; i < 4; ++i)
+	{
+		_setPrevNext(hedge[i], hedge[(i + 1) % 4]);
+		_setPrevNext(bhedge[i], bhedge[(i + 1) % 4]);
+	}
+
+	// Connect twin pointers
+	_setTwin(hedge[0], bhedge[0]);
+	_setTwin(hedge[1], bhedge[3]);
+	_setTwin(hedge[3], bhedge[1]);
+	_setTwin(hedge[2], bhedge[2]);
+
+	// Connect start pointers for bhedge
+	bhedge[0]->setStart(vert[1]);
+	bhedge[1]->setStart(vert[0]);
+	bhedge[2]->setStart(vert[3]);
+	bhedge[3]->setStart(vert[2]);
+	for (int i = 0; i < 4; ++i)
+	{
+		hedge[i]->setStart(vert[i]);
+	}
+
+	// Connect start pointers
+	// Connect face-hedge pointers
+	for (int i = 0; i < 4; ++i)
+	{
+		vert[i]->setHalfEdge(hedge[i]);
+		vert[i]->adjHEdges.push_back(hedge[i]);
+		_setFace(face, hedge[i]);
+	}
+	vert[0]->adjHEdges.push_back(bhedge[1]);
+	vert[1]->adjHEdges.push_back(bhedge[0]);
+	vert[2]->adjHEdges.push_back(bhedge[3]);
+	vert[3]->adjHEdges.push_back(bhedge[2]);
+
+	// Merge boundary if needed
+	for (int i = 0; i < 4; ++i)
+	{
+		Vertex *start = bhedge[i]->start();
+		Vertex *end = bhedge[i]->end();
+
+		for (int j = 0; j < end->adjHEdges.size(); ++j)
+		{
+			HEdge *curr = end->adjHEdges[j];
+			if (curr->isBoundary() && curr->end() == start)
+			{
+				_setPrevNext(bhedge[i]->prev(), curr->next());
+				_setPrevNext(curr->prev(), bhedge[i]->next());
+				_setTwin(bhedge[i]->twin(), curr->twin());
+				bhedge[i]->setStart(nullptr); // Mark as unused
+				curr->setStart(nullptr);	  // Mark as unused
+				break;
+			}
+		}
+	}
+
+	// Finally add hedges and faces to list
+	for (int i = 0; i < 4; ++i)
+	{
+		mHEdgeList.push_back(hedge[i]);
+		mBHEdgeList.push_back(bhedge[i]);
+	}
+	mFaceList.push_back(face);
+}
+
+void Mesh::addFace(Vertex *v1, Vertex *v2, Vertex *v3, Vertex *v4)
+{
+	Face *face = new Face();
+
+	HEdge *hedge[4];
+	HEdge *bhedge[4]; // Boundary half-edges
+	Vertex *vert[4];
+
+	for (int i = 0; i < 4; ++i)
+	{
+		hedge[i] = new HEdge();
+		bhedge[i] = new HEdge(true);
+	}
+	vert[0] = v1;
+	vert[1] = v2;
+	vert[2] = v3;
+	vert[3] = v4;
+
+	// Connect prev-next pointers
+	for (int i = 0; i < 4; ++i)
+	{
+		_setPrevNext(hedge[i], hedge[(i + 1) % 4]);
+		_setPrevNext(bhedge[i], bhedge[(i + 1) % 4]);
+	}
+
+	// Connect twin pointers
+	_setTwin(hedge[0], bhedge[0]);
+	_setTwin(hedge[1], bhedge[3]);
+	_setTwin(hedge[3], bhedge[1]);
+	_setTwin(hedge[2], bhedge[2]);
+
+	// Connect start pointers for bhedge
+	bhedge[0]->setStart(vert[1]);
+	bhedge[1]->setStart(vert[0]);
+	bhedge[2]->setStart(vert[3]);
+	bhedge[3]->setStart(vert[2]);
+	for (int i = 0; i < 4; ++i)
+	{
+		hedge[i]->setStart(vert[i]);
+	}
+
+	// Connect start pointers
+	// Connect face-hedge pointers
+	for (int i = 0; i < 4; ++i)
+	{
+		vert[i]->setHalfEdge(hedge[i]);
+		vert[i]->adjHEdges.push_back(hedge[i]);
+		_setFace(face, hedge[i]);
+	}
+	vert[0]->adjHEdges.push_back(bhedge[1]);
+	vert[1]->adjHEdges.push_back(bhedge[0]);
+	vert[2]->adjHEdges.push_back(bhedge[3]);
+	vert[3]->adjHEdges.push_back(bhedge[2]);
+
+	// Merge boundary if needed
+	for (int i = 0; i < 4; ++i)
+	{
+		Vertex *start = bhedge[i]->start();
+		Vertex *end = bhedge[i]->end();
+
+		for (int j = 0; j < end->adjHEdges.size(); ++j)
+		{
+			HEdge *curr = end->adjHEdges[j];
+			if (curr->isBoundary() && curr->end() == start)
+			{
+				_setPrevNext(bhedge[i]->prev(), curr->next());
+				_setPrevNext(curr->prev(), bhedge[i]->next());
+				_setTwin(bhedge[i]->twin(), curr->twin());
+				bhedge[i]->setStart(nullptr); // Mark as unused
+				curr->setStart(nullptr);	  // Mark as unused
+				break;
+			}
+		}
+	}
+
+	// Finally add hedges and faces to list
+	for (int i = 0; i < 4; ++i)
+	{
+		mHEdgeList.push_back(hedge[i]);
+		mBHEdgeList.push_back(bhedge[i]);
+	}
+	mFaceList.push_back(face);
+}
+
+void Mesh::clear_boundaryHE()
+{
+	std::vector<HEdge *> hedgeList;
+	for (int i = 0; i < mBHEdgeList.size(); ++i)
+	{
+		if (mBHEdgeList[i]->start())
+		{
+			hedgeList.push_back(mBHEdgeList[i]);
+		}
+	}
+	mBHEdgeList = hedgeList;
+
+	for (int i = 0; i < mVertexList.size(); ++i)
+	{
+		mVertexList[i]->adjHEdges.clear();
+		mVertexList[i]->setIndex(i);
+		mVertexList[i]->setFlag(0);
+	}
 }
 
 Eigen::Vector3f Mesh::initBboxMin() const
@@ -569,6 +831,12 @@ void Mesh::groupingVertexFlags()
 	}
 }
 
+// new
+void Mesh::addVertex(Vertex *vertex)
+{
+	mVertexList.push_back(vertex);
+}
+
 void Mesh::clear()
 {
 	for (int i = 0; i < mHEdgeList.size(); ++i)
@@ -611,14 +879,13 @@ std::vector<int> Mesh::collectMeshStats()
 	/*
 	/* Collect mesh information as listed above.
 	/**********************************************/
-
 	V = this->vertices().size();
 	E = this->edges().size();
-	F = this->faces().size() / 2;
+	F = this->faces().size();
 	B = this->countBoundaryLoops();
 	C = this->countConnectedComponents();
 	if (B = 0)
-		G = 1 - (V - E / 3 + F) / 2;
+		G = 1 - (V - E / 2 + F) / 2;
 
 	/*====== Programming Assignment 0 ======*/
 
@@ -630,6 +897,22 @@ std::vector<int> Mesh::collectMeshStats()
 	stats.push_back(C);
 	stats.push_back(G);
 	return stats;
+}
+
+void Mesh::printMeshStats()
+{
+	std::vector<int> stats = collectMeshStats();
+	std::cout << "#side_num             = " << side_num << "\n";
+	std::cout << "#vertices             = " << stats[0] << "\n";
+	std::cout << "#half_edges           = " << stats[1] << "\n";
+	std::cout << "#faces                = " << stats[2] << "\n";
+	std::cout << "#boundary_loops       = " << stats[3] << "\n";
+	std::cout << "#connected_components = " << stats[4] << "\n";
+	std::cout << "#genus                = " << stats[5] << "\n";
+	std::cout << "#mVertexPosFlag       = " << mVertexPosFlag << "\n";
+	std::cout << "#mVertexNormalFlag    = " << mVertexNormalFlag << "\n";
+	std::cout << "#mVertexColorFlag     = " << mVertexColorFlag << "\n\n";
+
 }
 
 int Mesh::countBoundaryLoops()
@@ -788,8 +1071,8 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 	auto start = std::chrono::high_resolution_clock::now();
 	int num_vertices = mVertexList.size();
 	std::vector<Eigen::Vector3f> positions(num_vertices); // initialize vector with size numVertex
-	float lambda = 0.5;									  // shrink rate
-	float mu = 0;									  // inflate rate
+	float lambda = 0.5f;								  // shrink rate
+	float mu = 0;										  // inflate rate
 	bool inflate_flag = false;
 
 	if (cotangentWeights)
@@ -807,49 +1090,49 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/**********************************************/
 
 		// without inflation //
-		std::vector<Eigen::Triplet<float>> tripletList;
-		for (int i = 0; i < num_vertices; i++)
-		{
-			// find all adjacent vertices //
-			Vertex *vertex = mVertexList[i];
-			OneRingHEdge he_ring = OneRingHEdge(vertex);
-			std::vector<HEdge *> adj_he;
-			HEdge *it;
-			while (it = he_ring.nextHEdge())
-				adj_he.push_back(it);
+		// std::vector<Eigen::Triplet<float>> tripletList;
+		// for (int i = 0; i < num_vertices; i++)
+		// {
+		// 	// find all adjacent vertices //
+		// 	Vertex *vertex = mVertexList[i];
+		// 	OneRingHEdge he_ring = OneRingHEdge(vertex);
+		// 	std::vector<HEdge *> adj_he;
+		// 	HEdge *it;
+		// 	while (it = he_ring.nextHEdge())
+		// 		adj_he.push_back(it);
 
-			// construct sparse matrix A with tripletList //
-			float total_weights = 0;
-			std::vector<float> weight_list;
-			std::vector<int> index_list;
-			for (int j = 0; j < adj_he.size(); j++)
-			{
-				int index = std::find(mVertexList.begin(), mVertexList.end(), adj_he[j]->end()) - mVertexList.begin();
-				if (index == num_vertices)
-					continue;
-				index_list.push_back(index);
-				double weight = find_weight(adj_he[j]);
-				weight_list.push_back(weight);
-				total_weights += weight;
-			}
+		// 	// construct sparse matrix A with tripletList //
+		// 	float total_weights = 0;
+		// 	std::vector<float> weight_list;
+		// 	std::vector<int> index_list;
+		// 	for (int j = 0; j < adj_he.size(); j++)
+		// 	{
+		// 		int index = std::find(mVertexList.begin(), mVertexList.end(), adj_he[j]->end()) - mVertexList.begin();
+		// 		if (index == num_vertices)
+		// 			continue;
+		// 		index_list.push_back(index);
+		// 		double weight = find_weight(adj_he[j]);
+		// 		weight_list.push_back(weight);
+		// 		total_weights += weight;
+		// 	}
 
-			for (int j = 0; j < index_list.size(); j++)
-				tripletList.push_back(Eigen::Triplet<float>(i, index_list[j], -weight_list[j] / total_weights));
-			tripletList.push_back(Eigen::Triplet<float>(i, i, 1));
-		}
-		Eigen::SparseMatrix<float> L(num_vertices, num_vertices);
-		L.setFromTriplets(tripletList.begin(), tripletList.end());
+		// 	for (int j = 0; j < index_list.size(); j++)
+		// 		tripletList.push_back(Eigen::Triplet<float>(i, index_list[j], -weight_list[j] / total_weights));
+		// 	tripletList.push_back(Eigen::Triplet<float>(i, i, 1));
+		// }
+		// Eigen::SparseMatrix<float> L(num_vertices, num_vertices);
+		// L.setFromTriplets(tripletList.begin(), tripletList.end());
 
-		Eigen::MatrixXf P(num_vertices, 3);
-		for (int i = 0; i < num_vertices; ++i)
-			P.row(i) = mVertexList[i]->position().transpose();
-		P = P - lambda * L * P;
+		// Eigen::MatrixXf P(num_vertices, 3);
+		// for (int i = 0; i < num_vertices; ++i)
+		// 	P.row(i) = mVertexList[i]->position().transpose();
+		// P = P - lambda * L * P;
 
-		for (int i = 0; i < num_vertices; ++i)
-			mVertexList[i]->setPosition(P.row(i).transpose());
+		// for (int i = 0; i < num_vertices; ++i)
+		// 	mVertexList[i]->setPosition(P.row(i).transpose());
 
 		// with inflation //
-		/*
+
 		do
 		{
 			// calculate target position (laplacian vector)
@@ -891,7 +1174,6 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 			else
 				break;
 		} while (true);
-		*/
 	}
 	else
 	{
@@ -904,74 +1186,72 @@ void Mesh::umbrellaSmooth(bool cotangentWeights)
 		/**********************************************/
 
 		// without inflation
-		std::vector<Eigen::Triplet<float>> tripletList;
+		// std::vector<Eigen::Triplet<float>> tripletList;
+		// for (int i = 0; i < num_vertices; i++)
+		// {
+		// 	// find all adjacent vertices //
+		// 	Vertex *vertex = mVertexList[i];
+		// 	OneRingVertex v_ring = OneRingVertex(vertex);
+		// 	std::vector<Vertex *> adj_vertices;
+		// 	Vertex *it;
+		// 	while (it = v_ring.nextVertex())
+		// 		adj_vertices.push_back(it);
 
-		for (int i = 0; i < num_vertices; i++)
-		{
-			// find all adjacent vertices //
-			Vertex *vertex = mVertexList[i];
-			OneRingVertex v_ring = OneRingVertex(vertex);
-			std::vector<Vertex *> adj_vertices;
-			Vertex *it;
-			while (it = v_ring.nextVertex())
-				adj_vertices.push_back(it);
+		// 	// construct sparse matrix A with tripletList //
+		// 	tripletList.push_back(Eigen::Triplet<float>(i, i, 1));
+		// 	for (int j = 0; j < adj_vertices.size(); j++)
+		// 	{
+		// 		int index = std::find(mVertexList.begin(), mVertexList.end(), adj_vertices[j]) - mVertexList.begin();
+		// 		if (index == num_vertices)
+		// 			continue;
+		// 		tripletList.push_back(Eigen::Triplet<float>(i, index, (float)(-1.0 / adj_vertices.size())));
+		// 	}
+		// }
+		// Eigen::SparseMatrix<float> L(num_vertices, num_vertices);
+		// L.setFromTriplets(tripletList.begin(), tripletList.end());
 
-			// construct sparse matrix A with tripletList //
-			tripletList.push_back(Eigen::Triplet<float>(i, i, 1));
-			for (int j = 0; j < adj_vertices.size(); j++)
-			{
-				int index = std::find(mVertexList.begin(), mVertexList.end(), adj_vertices[j]) - mVertexList.begin();
-				if (index == num_vertices)
-					continue;
-				tripletList.push_back(Eigen::Triplet<float>(i, index, (float)(-1.0 / adj_vertices.size())));
-			}
-		}
-		Eigen::SparseMatrix<float> L(num_vertices, num_vertices);
-		L.setFromTriplets(tripletList.begin(), tripletList.end());
+		// Eigen::MatrixXf P(num_vertices, 3);
+		// for (int i = 0; i < num_vertices; ++i)
+		// 	P.row(i) = mVertexList[i]->position().transpose();
+		// P = P - lambda * L * P;
 
-		Eigen::MatrixXf P(num_vertices, 3);
-		for (int i = 0; i < num_vertices; ++i)
-			P.row(i) = mVertexList[i]->position().transpose();
-		P = P - lambda * L * P;
-
-		for (int i = 0; i < num_vertices; ++i)
-			mVertexList[i]->setPosition(P.row(i).transpose());
+		// for (int i = 0; i < num_vertices; ++i)
+		// 	mVertexList[i]->setPosition(P.row(i).transpose());
 
 		// with inflation //
-		// do
-		// {
-		// 	// calculate target position (laplacian vector)
-		// 	for (int i = 0; i < num_vertices; i++)
-		// 	{
-		// 		std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
-		// 		HEdge *he = mVertexList[i]->halfEdge();
-		// 		adj_vertices.push_back(he->twin()->start());
-		// 		HEdge *curr = he->prev()->twin();
-		// 		while (curr != he)
-		// 		{
-		// 			adj_vertices.push_back(curr->prev()->start());
-		// 			curr = curr->prev()->twin();
-		// 		}
+		do
+		{
+			// calculate target position (laplacian vector)
+			for (int i = 0; i < num_vertices; i++)
+			{
+				std::vector<Vertex *> adj_vertices; // collect all adjacent vertices
+				HEdge *he = mVertexList[i]->halfEdge();
+				adj_vertices.push_back(he->twin()->start());
+				HEdge *curr = he->prev()->twin();
+				while (curr != he)
+				{
+					adj_vertices.push_back(curr->prev()->start());
+					curr = curr->prev()->twin();
+				}
 
-		// 		Eigen::Vector3f position(0, 0, 0); // initialize the position
-		// 		for (int i = 0; i < adj_vertices.size(); i++)
-		// 			position += adj_vertices[i]->position();
-		// 		positions[i] = position / adj_vertices.size();
-		// 	}
-		// 	// determine whether to shrink or inflate
-		// 	double co;
-		// 	if (!inflate_flag)
-		// 		co = lambda;
-		// 	else
-		// 		co = mu;
-		// 	for (int i = 0; i < num_vertices; i++)
-		// 		mVertexList[i]->setPosition(co * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
-		// 	if (!inflate_flag)
-		// 		inflate_flag = true;
-		// 	else
-		// 		break;
-		// } while (true);
-		
+				Eigen::Vector3f position(0, 0, 0); // initialize the position
+				for (int i = 0; i < adj_vertices.size(); i++)
+					position += adj_vertices[i]->position();
+				positions[i] = position / adj_vertices.size();
+			}
+			// determine whether to shrink or inflate
+			double co;
+			if (!inflate_flag)
+				co = lambda;
+			else
+				co = mu;
+			for (int i = 0; i < num_vertices; i++)
+				mVertexList[i]->setPosition(co * (positions[i] - mVertexList[i]->position()) + mVertexList[i]->position());
+			if (!inflate_flag)
+				inflate_flag = true;
+			else
+				break;
+		} while (true);
 	}
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
